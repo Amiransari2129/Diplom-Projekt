@@ -31,7 +31,7 @@ const Header = () => {
 
 	const handleUserChoice = (setting) => {
 		if (setting === 'Profile') {
-			navigate(setting);
+			navigate(`/${setting}`);
 		} else {
 			localStorage.removeItem('token');
 			navigate('/login');
@@ -107,7 +107,6 @@ const Header = () => {
 						</Tooltip>
 						<Menu
 							anchorEl={anchorElUser}
-
 							transformOrigin={{
 								vertical: 'top',
 								horizontal: 'center'
