@@ -52,6 +52,7 @@ const Header = () => {
 					<Typography
 						variant='h5'
 						noWrap
+						onClick={() => navigate('./')}
 						sx={{ display: { xs: 'none', md: 'flex' } }}
 					>
 						Meevies

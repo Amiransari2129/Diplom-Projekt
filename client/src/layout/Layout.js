@@ -5,8 +5,7 @@ import Header from '../components/header/Header'
 const layout = ({ children }) => {
 	return (
 		<>
-
-			<Grid container spacing='2'>
+			<Grid container>
 				<Grid item xs={12}>
 					<Header />
 				</Grid>

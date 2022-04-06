@@ -40,7 +40,7 @@ const ResetPassPage = () => {
 
 		try {
 			const { data } = await axios.put(`/auth/resetpassword/${params.token}`, password, options);
-			console.log(data.error)
+
 			setSuccessMSG('Password has been changed!')
 			return clearMSG()
 		} catch (error) {

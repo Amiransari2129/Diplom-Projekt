@@ -12,6 +12,7 @@ import DiscoveryPage from './components/views/DiscoverPage/DiscoverPage';
 import SearchPage from './components/views/SearchPage/SearchPage';
 import AllMoviesPage from './components/views/AllMovies/AllMovies';
 import ProfilePage from './components/views/ProfilePage/ProfilePage';
+import MovieDetailsPage from './components/views/MoviesDetailsPage/MovieDetailsPage'
 
 import './App.css';
 
@@ -29,7 +30,7 @@ const theme = createTheme({
       default: '#131313',
       paper: '#131313'
     },
-  }
+  },
 })
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route exact path='/register' element={<RegisterPage />} />
         <Route exact path='/forgotpassword' element={<ForgotPassPage />} />
         <Route exact path='/resetpassword/:token' element={<ResetPassPage />} />
+        <Route exact path='/movies/:id' element={<PrivateRoute Component={MovieDetailsPage} />} />
         <Route exact path='/discover' element={<PrivateRoute Component={DiscoveryPage} />} />
         <Route exact path='/profile' element={<PrivateRoute Component={ProfilePage} />} />
         <Route exact path='/search' element={<PrivateRoute Component={SearchPage} />} />
