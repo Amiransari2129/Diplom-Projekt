@@ -14,8 +14,6 @@ export const getMovie = async (req, res, next) => {
 export const filterMovies = async (req, res, next) => {
 	const { filterKey, catKey } = req.body;
 
-	console.log(filterKey, catKey)
-
 	if (!filterKey || !catKey) {
 		return next(new ErrorMessage('Please provide valid search information.', 400));
 	}

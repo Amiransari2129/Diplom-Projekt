@@ -74,7 +74,7 @@ const SearchBar = () => {
 			return dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey));
 		}
 	};
-	console.log(searchCriteria)
+
 	return (
 		<Grid
 			container
