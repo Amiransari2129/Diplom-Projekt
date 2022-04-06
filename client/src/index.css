@@ -5,7 +5,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background-color: rgb(19, 19, 19);
-  color: rgb(239, 114, 15);
+  color: rgb(239, 114, 15); /* #ef720f */
 
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
