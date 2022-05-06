@@ -4,8 +4,8 @@ import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Typography
 import { Menu as MenuIcon, AccountCircle as Avatar } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom';
 
-const views = ['Discover', 'Search', 'All Movies'];
-const settings = ['Profile', 'Logout'];
+const views = ['Discover', 'Search'];
+const settings = ['Profile', 'Watchlist', 'Logout'];
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -32,8 +32,10 @@ const Header = () => {
 	const handleUserChoice = (setting) => {
 		if (setting === 'Profile') {
 			navigate(`/${setting}`);
+		} else if (setting === 'Watchlist') {
+			navigate(`/${setting}`);
 		} else {
-			localStorage.removeItem('token');
+			localStorage.clear();
 			navigate('/login');
 		}
 	}
@@ -52,7 +54,7 @@ const Header = () => {
 					<Typography
 						variant='h5'
 						noWrap
-						onClick={() => navigate('./')}
+						onClick={() => navigate('/')}
 						sx={{ display: { xs: 'none', md: 'flex' } }}
 					>
 						Meevies
@@ -83,6 +85,7 @@ const Header = () => {
 					<Typography
 						variant='h5'
 						noWrap
+						onClick={() => navigate('/')}
 						sx={{ flexGrow: 1, display: { md: 'none' } }}
 					>
 						Meevies

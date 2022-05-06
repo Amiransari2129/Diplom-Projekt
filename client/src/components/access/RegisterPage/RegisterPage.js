@@ -50,10 +50,11 @@ const RegisterPage = () => {
 			const { data } = await axios.post('auth/register', userData, options);
 
 			localStorage.setItem('token', data?.token);
+			localStorage.setItem('username', data?.username);
 
 			navigate('/')
 		} catch (error) {
-			setErrorMSG(error.response.data.error)
+			setErrorMSG(error.response.data.message)
 			return clearMSG();
 		};
 	};
@@ -62,7 +63,6 @@ const RegisterPage = () => {
 			container
 			alignItems='center'
 			justifyContent='center'
-			direction='column'
 			style={{ minHeight: '100vh' }}
 		>
 			<Grid item>
@@ -122,29 +122,25 @@ const RegisterPage = () => {
 								/>
 								<Box textAlign='center' sx={{ mb: '7px' }}>
 									{errorMSG &&
-										<Alert variant="outlined" severity="error">
+										<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 											{errorMSG}
 										</Alert>}
 									{successMSG &&
-										<Alert variant="outlined" severity="success">
+										<Alert variant="outlined" severity="success" sx={{ background: '#030303' }}>
 											{successMSG}
 										</Alert>}
 								</Box>
 							</Box>
 
-							<Box textAlign='center' sx={{ mb: '7px' }}>
+							<Box textAlign='center' sx={{ mb: '10px' }}>
 								<Button variant='outlined' type='submit' fullWidth>Create Account</Button>
 							</Box>
+							<Box textAlign='center' sx={{ mb: '-10px' }}>
+								<Link href='/login'>
+									Return to Login
+								</Link>
+							</Box>
 						</Box>
-						<Grid container>
-							<Grid item>
-								<Box >
-									<Link href='/login' >
-										Return to Login
-									</Link>
-								</Box>
-							</Grid>
-						</Grid>
 					</CardContent>
 				</Card>
 			</Grid >

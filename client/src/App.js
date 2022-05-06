@@ -12,6 +12,7 @@ import DiscoveryPage from './components/views/DiscoverPage/DiscoverPage';
 import SearchPage from './components/views/SearchPage/SearchPage';
 import AllMoviesPage from './components/views/AllMovies/AllMovies';
 import ProfilePage from './components/views/ProfilePage/ProfilePage';
+import WatchlistPage from './components/views/Watchlist/Watchlist';
 import MovieDetailsPage from './components/views/MoviesDetailsPage/MovieDetailsPage'
 
 import './App.css';
@@ -27,7 +28,7 @@ const theme = createTheme({
       secondary: '#ef720f',
     },
     background: {
-      default: '#131313',
+      default: '#080808',
       paper: '#131313'
     },
   },
@@ -44,6 +45,7 @@ function App() {
         <Route exact path='/movies/:id' element={<PrivateRoute Component={MovieDetailsPage} />} />
         <Route exact path='/discover' element={<PrivateRoute Component={DiscoveryPage} />} />
         <Route exact path='/profile' element={<PrivateRoute Component={ProfilePage} />} />
+        <Route exact path='/watchlist' element={<PrivateRoute Component={WatchlistPage} />} />
         <Route exact path='/search' element={<PrivateRoute Component={SearchPage} />} />
         <Route exact path='/all%20movies' element={<PrivateRoute Component={AllMoviesPage} />} />
         <Route exact path='/' element={<PrivateRoute Component={HomePage} />} />

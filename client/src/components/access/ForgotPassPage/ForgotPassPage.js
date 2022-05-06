@@ -30,7 +30,7 @@ const ForgotPassPage = () => {
 			setSuccessMSG('Email has been sent!')
 			return clearMSG()
 		} catch (error) {
-			setErrorMSG(error.response.data.error);
+			setErrorMSG(error.response.data.message);
 			return clearMSG()
 		}
 	}
@@ -62,25 +62,23 @@ const ForgotPassPage = () => {
 							</Box>
 							<Box textAlign='center' sx={{ mb: '7px' }}>
 								{errorMSG &&
-									<Alert variant="outlined" severity="error">
+									<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 										{errorMSG}
 									</Alert>}
 								{successMSG &&
-									<Alert variant="outlined" severity="success">
+									<Alert variant="outlined" severity="success" sx={{ background: '#030303' }}>
 										{successMSG}
 									</Alert>}
 							</Box>
-							<Box textAlign='center' sx={{ mb: '7px' }}>
-								<Button variant='outlined' type='submit' fullWidth>Send Password Reset Email</Button>
+							<Box textAlign='center' sx={{ mb: '10px' }}>
+								<Button variant='outlined' type='submit' fullWidth>Reset Password</Button>
 							</Box>
-						</Box>
-						<Grid container>
-							<Grid item xs>
+							<Box textAlign='center' sx={{ mb: '-10px' }}>
 								<Link href='/login'>
 									Return to Login
 								</Link>
-							</Grid>
-						</Grid>
+							</Box>
+						</Box>
 					</CardContent>
 				</Card>
 			</Grid >

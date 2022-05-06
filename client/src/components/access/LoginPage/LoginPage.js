@@ -35,12 +35,12 @@ const LoginPage = () => {
 
 		try {
 			const { data } = await axios.post('/auth/login', userData, options);
-
 			localStorage.setItem('token', data?.token);
+			localStorage.setItem('username', data?.username);
 
 			navigate('/')
 		} catch (error) {
-			setErrorMSG(error.response.data.error)
+			setErrorMSG(error.response.data.message)
 			return clearMSG();
 		};
 	};
@@ -54,7 +54,7 @@ const LoginPage = () => {
 			style={{ minHeight: '100vh' }}
 		>
 			<Grid item>
-				<Card variant='outlined'>
+				<Card raised elevation={8}>
 					<CardContent>
 						<Typography variant='h4' align='center'>Meevies</Typography>
 						<Box component='form' onSubmit={(e) => handleLogin(e)} noValidate xs={1}>
@@ -85,14 +85,14 @@ const LoginPage = () => {
 									})}
 								/>
 							</Box>
-							<Box textAlign='center' sx={{ mb: '7px' }}>
+							<Box textAlign='center' sx={{ mb: '7px' }} >
+								<Button variant='outlined' type='submit' fullWidth>Login</Button>
+							</Box>
+							<Box textAlign='center' sx={{ mb: '7px' }} width={300}>
 								{errorMSG &&
-									<Alert variant="outlined" severity="error">
+									<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 										{errorMSG}
 									</Alert>}
-							</Box>
-							<Box textAlign='center' sx={{ mb: '7px' }}>
-								<Button variant='outlined' type='submit' fullWidth>Login</Button>
 							</Box>
 						</Box>
 						<Grid container>

@@ -1,7 +1,6 @@
-import User from '../models/User.js';
-import sendEmail from '../utils/sendResetPassword.js';
 import crypto from 'crypto';
-import ErrorMessage from '../utils/errorMessage.js';
+import sendEmail from '../utils/sendResetPassword.js';
+import User from '../models/User.js';
 
 export const register = async (req, res, next) => {
 	const { username, email, password } = req.body;
@@ -12,18 +11,18 @@ export const register = async (req, res, next) => {
 		});
 
 		const token = user.createSignedToken();
-		res.status(201).json({ success: true, token, message: 'User has been created!' });
+		res.status(201).json({ success: true, token, username, message: 'User has been created!' });
 	} catch (error) {
 		if (error.keyPattern?.username) {
-			return next(new ErrorMessage('Name is already in use', 401));
+			return res.status(401).json({ success: false, message: 'Name already in use' });
 		}
 		if (error.keyPattern?.email) {
-			return next(new ErrorMessage('Email is already in use', 401));
+			return res.status(401).json({ success: false, message: 'Email already in use' });
 		}
 		if (error.errors.password?.properties.type) {
-			return next(new ErrorMessage('Password must be longer than 6 characters.', 401));
+			return res.status(401).json({ success: false, message: 'password must be longer than 6 characters' });
 		}
-		return next(new ErrorMessage('Please Provide valid Name, Username or Password', 401));
+		return res.status(400).json({ success: false, message: 'Please Provide valid Name, Username or Password' });
 	}
 }
 
@@ -31,27 +30,28 @@ export const login = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
-		return next(new ErrorMessage('Please Enter a Email and Password', 400))
+		return res.status(400).json({ success: false, message: 'Please provide an Email and Password' });
 	};
 
 	try {
 		const user = await User.findOne({ email }).select('+password');
-
+		const username = user.username;
 		if (!user) {
-			return next(new ErrorMessage('Invalid Email', 401))
+			return res.status(401).json({ success: false, message: 'Invalid Email' });
 		};
 
 		const passMatch = await user.comparePassword(password);
 
 		if (!passMatch) {
-			return next(new ErrorMessage('Invalid Password', 401))
+			return res.status(401).json({ success: false, message: 'Invalid Password' });
 		};
 
 		const token = user.createSignedToken();
-		res.status(200).json({ success: true, token });
+		res.status(200).json({ success: true, token, username });
 
 	} catch (error) {
-		return next(new ErrorMessage('Invalid Username or Password', 401))
+
+		return res.status(401).json({ success: false, message: 'Invalid email or password' });
 	}
 }
 
@@ -62,7 +62,7 @@ export const forgotPassword = async (req, res, next) => {
 		const user = await User.findOne({ email });
 
 		if (!user) {
-			return next(new ErrorMessage('Invalid Email', 401))
+			return res.status(401).json({ success: false, message: 'Invalid Email' });
 		}
 
 		const token = user.createResetToken();
@@ -94,11 +94,12 @@ export const forgotPassword = async (req, res, next) => {
 
 			await user.save();
 
-			return next(new ErrorMessage('Error sending email try again.', 500))
+
+			return res.status(500).json({ success: false, message: 'Error sending email, please try again!' });
 		}
 
 	} catch (error) {
-		return next(new ErrorMessage('Invalid Email.', 404))
+		return res.status(404).json({ success: false, message: 'Invalid email' });
 	}
 }
 
@@ -113,7 +114,7 @@ export const resetPassword = async (req, res, next) => {
 		})
 
 		if (!user) {
-			return next(new ErrorMessage('Reset Password Token has already been used or expired', 400))
+			return res.status(400).json({ success: false, message: 'Reset Password Token has already been used or expired' });
 		}
 
 		user.password = password;
@@ -124,6 +125,6 @@ export const resetPassword = async (req, res, next) => {
 
 		res.status(201).json({ success: true, message: 'Password has Been Changed' });
 	} catch (error) {
-		return next(new ErrorMessage('Something went wrong. try again', 404))
+		return res.status(400).json({ success: false, message: 'Something went wrong, please try again' });
 	}
 }

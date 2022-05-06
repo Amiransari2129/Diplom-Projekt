@@ -1,8 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: './config.env' });
 
-import errorHandler from './middleware/errorHandler.js'
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
@@ -22,8 +20,6 @@ app.use(cors({
 app.use('/movies', movieRoutes);
 app.use('/auth', authRoutes);
 
-
-app.use(errorHandler)
 const CONNECTION_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 5000;
 

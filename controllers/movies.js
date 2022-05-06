@@ -1,13 +1,13 @@
-import Movies from "../models/Movies.js";
-import ErrorMessage from '../utils/errorMessage.js';
+import Movies from '../models/Movies.js';
+import Watchlist from '../models/Watchlist.js'
 
 export const getMovie = async (req, res, next) => {
 	const { id } = req.params;
 	try {
 		const moviesDetails = await Movies.findOne({ imdb_id: id });
-		res.status(200).json(moviesDetails);
+		return res.status(200).json(moviesDetails);
 	} catch (error) {
-		return next(new ErrorMessage('Could not get Movie.', 404));
+		return res.status(404).json({ success: false, message: 'Could not get movie' });
 	}
 }
 
@@ -15,7 +15,7 @@ export const filterMovies = async (req, res, next) => {
 	const { filterKey, catKey } = req.body;
 
 	if (!filterKey || !catKey) {
-		return next(new ErrorMessage('Please provide valid search information.', 400));
+		return res.status(400).json({ success: false, message: 'Please provide valid search information' });
 	}
 
 	let query = '';
@@ -24,12 +24,7 @@ export const filterMovies = async (req, res, next) => {
 			query = { 'year': { '$eq': filterKey } };
 			break;
 		case 'title':
-			query = {
-				$text: {
-					$search: `\"${filterKey}\"`,
-					$caseSensitive: false,
-				}
-			};
+			query = { title: { $regex: new RegExp(filterKey, 'i') } }
 			break;
 		case 'genre':
 			query = { 'gen.id': { '$eq': Number(filterKey) } };
@@ -45,11 +40,11 @@ export const filterMovies = async (req, res, next) => {
 		title: 1,
 		imdb_id: 1,
 		year: 1,
-		'gen.id': 1,
-		'gen.genre': 1,
 		rating: 1,
 		popularity: 1,
 		image_url: 1,
+		movie_length: 1,
+		banner: 1,
 	};
 
 	try {
@@ -61,11 +56,94 @@ export const filterMovies = async (req, res, next) => {
 		}
 
 		if (filteredMovies.length <= 0) {
-			return next(new ErrorMessage('Could not find what you were searching for.', 404));
+			return res.status(404).json({ success: false, message: 'Could not find what you were searching for' });
 		}
 
 		res.status(200).json(filteredMovies);
 	} catch (error) {
-		return next(new ErrorMessage('Something went wrong, try again', 500));
+		return res.status(500).json({ success: false, message: 'Something went wrong try again' });
+	}
+}
+
+export const addWatchlater = async (req, res, next) => {
+	const { username, movieid, image_url, added, title } = req.body;
+
+	if (!username || !movieid) {
+		return res.status(400).json({ success: false, message: 'Could not add movie to watchlist' });
+	}
+
+	try {
+		const isThere = await Watchlist.findOne({ username: username });
+
+		if (!isThere) {
+			const watchlater = await Watchlist.create({
+				username: username, Watchlist: { movieid, image_url, added, title }
+			});
+			watchlater.save(username);
+			res.status(201).json({ success: true, message: 'Movie has been added to watchlist!' });
+		} else {
+			await Watchlist.updateOne({ username: username }, { $push: { Watchlist: { movieid, image_url, added, title } } });
+			res.status(201).json({ success: true, message: 'Movie has been added to watchlist!' });
+		}
+	} catch (error) {
+		return res.status(401).json({ success: false, message: 'Could not add movie to watchlist, try again.' });
+	}
+}
+
+export const deleteFromWatchlist = async (req, res, next) => {
+	const { user, movieid } = req.body;
+	try {
+		const userWatchlist = await Watchlist.updateOne({ username: user }, { $pull: { Watchlist: { movieid: movieid } } });
+
+		res.status(200).json(userWatchlist);
+	} catch (error) {
+		return res.status(404).json({ success: false, message: 'Could not delete from watchlist' });
+	}
+}
+
+export const getWatchlist = async (req, res, next) => {
+	const { user } = req.body;
+	try {
+		const watchlist = await Watchlist.findOne({ username: user });
+		res.status(200).json(watchlist);
+	} catch (error) {
+		return res.status(404).json({ success: false, message: 'could not get locate watchlist' });
+	}
+}
+
+export const getFeaturedMovie = async (req, res, next) => {
+	try {
+		const featuredMovie = await Movies.aggregate([{ $sample: { size: 1 } }])
+		res.status(200).json(featuredMovie);
+	} catch (error) {
+		return res.status(404).json({ success: false, message: 'Could not get Featured Movie' });
+	}
+}
+
+export const getMoviesVIAGenre = async (req, res, next) => {
+	const { genre } = req.body;
+	let rand = Math.floor(Math.random() * 1000)
+	const filter = {
+		title: 1,
+		imdb_id: 1,
+		year: 1,
+		rating: 1,
+		popularity: 1,
+		image_url: 1,
+		movie_length: 1,
+		banner: 1,
+	};
+
+	if (!genre) {
+		return res.status(400).json({ success: false, message: 'Invalid Genre' });
+	}
+
+	const query = { 'gen.id': { '$eq': Number(genre) } };
+
+	try {
+		const sgenre1 = await Movies.find(query, filter).skip(rand).limit(40).sort({ popularity: 1 });
+		res.status(200).json(sgenre1)
+	} catch (error) {
+		return res.status(404).json({ success: false, message: 'Could not get genre filtered movies.' })
 	}
 }

@@ -1,10 +1,11 @@
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
+  -webkit-text-stroke: 0.01rem rgb(0, 0, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: rgb(19, 19, 19);
+  background-color: rgb(25, 25, 25);
   color: rgb(239, 114, 15); /* #ef720f */
 
   -ms-overflow-style: none; /* IE and Edge */

@@ -39,12 +39,16 @@ const ResetPassPage = () => {
 		};
 
 		try {
-			const { data } = await axios.put(`/auth/resetpassword/${params.token}`, password, options);
+			await axios.put(`/auth/resetpassword/${params.token}`, password, options);
 
 			setSuccessMSG('Password has been changed!')
+			setPassword({
+				password: '',
+				passwordConfirm: ''
+			})
 			return clearMSG()
 		} catch (error) {
-			setErrorMSG(error.response?.data.error)
+			setErrorMSG(error.response?.data.message)
 			return clearMSG()
 		}
 	}
@@ -88,11 +92,11 @@ const ResetPassPage = () => {
 								/>
 								<Box textAlign='center' sx={{ mb: '7px' }}>
 									{errorMSG &&
-										<Alert variant="outlined" severity="error">
+										<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 											{errorMSG}
 										</Alert>}
 									{successMSG &&
-										<Alert variant="outlined" severity="success">
+										<Alert variant="outlined" severity="success" sx={{ background: '#030303' }}>
 											{successMSG}
 										</Alert>}
 								</Box>

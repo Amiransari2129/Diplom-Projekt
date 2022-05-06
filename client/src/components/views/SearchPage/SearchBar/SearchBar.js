@@ -19,7 +19,7 @@ const SearchBar = () => {
 		}, 5000);
 	}
 	useEffect(() => {
-		!movies.success && setErrorMSG(movies.error)
+		!movies.success && setErrorMSG(movies.message)
 		clearMSG();
 	}, [movies])
 
@@ -91,7 +91,7 @@ const SearchBar = () => {
 							margin='normal'
 							required
 							fullWidth
-							label='Search Keyword'
+							label={placeHoldertext[searchCriteria.catKey]}
 							autoFocus
 							onChange={(e) => setSearchCriteria({
 								...searchCriteria,
@@ -100,7 +100,7 @@ const SearchBar = () => {
 						/>
 						<Box sx={{ mb: -1 }}>
 							<Select
-								select
+								select='true'
 								value={searchCriteria.catKey}
 								defaultValue='title'
 								onChange={(e) => setSearchCriteria({
@@ -118,7 +118,7 @@ const SearchBar = () => {
 					</div>
 					<Box textAlign='center' sx={{ mb: '7px' }}>
 						{errorMSG &&
-							<Alert variant='outlined' severity='error'>
+							<Alert variant='outlined' severity='error' sx={{ background: '#030303' }}>
 								{errorMSG}
 							</Alert>}
 					</Box>
