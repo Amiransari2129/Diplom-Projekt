@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getFilteredMovies = (catKey, filterKey) => async (dispatch) => {
+export const getFilteredMovies = (catKey, filterKey, skip) => async (dispatch) => {
 	let action = [{}];
 
 	const searchCriteria = {
@@ -9,6 +9,10 @@ export const getFilteredMovies = (catKey, filterKey) => async (dispatch) => {
 	}
 
 	const options = {
+		params: {
+			skip,
+			limit: 40,
+		},
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `token ${localStorage.getItem('token')}`

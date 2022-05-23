@@ -69,7 +69,7 @@ const RegisterPage = () => {
 				<Card variant='outlined'>
 					<CardContent>
 						<Typography variant='h4' align='center'>Sign Up</Typography>
-						<Box component='form' onSubmit={(e) => handleRegister(e)} noValidate xs={1}>
+						<Box component='form' onSubmit={(e) => handleRegister(e)} noValidate xs={1} alignItems='center'>
 							<Box textAlign='center' width={300}>
 								<TextField
 									type='text'
@@ -120,7 +120,8 @@ const RegisterPage = () => {
 										confirmPassword: e.target.value
 									})}
 								/>
-								<Box textAlign='center' sx={{ mb: '7px' }}>
+
+								<Box textAlign='center' sx={{ mb: '10px' }}>
 									{errorMSG &&
 										<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 											{errorMSG}
@@ -130,6 +131,7 @@ const RegisterPage = () => {
 											{successMSG}
 										</Alert>}
 								</Box>
+
 							</Box>
 
 							<Box textAlign='center' sx={{ mb: '10px' }}>

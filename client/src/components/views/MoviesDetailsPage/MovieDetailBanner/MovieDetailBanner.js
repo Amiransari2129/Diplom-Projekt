@@ -2,7 +2,6 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Modal, Typography } fr
 import { useSelector } from 'react-redux'
 import React, { useState } from 'react'
 
-import './MovieDetailBanner.css'
 import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
 import ExtendedCastList from '../../MoviesDetailsPage/CastList/ExtendedCastList/ExtendedCastList'
 
@@ -88,35 +87,37 @@ const MovieDetailBanner = ({ movie, extendedCast, CDW, awards }) => {
 						<Typography variant='body2' gutterBottom>
 							{movie.plot}
 						</Typography>
-						<Typography variant='h6' >
-							Box office
-						</Typography>
-						<Box display='flex' gap={1} justifyContent='center'>
-							<Typography component='span' variant='body1' gutterBottom >
-								Opening Weekend:
-								<Typography variant='body2' gutterBottom >
-									${numFormatter(earnings?.openingWeekendGross?.gross?.total?.amount)}
-								</Typography>
-							</Typography>
-							<Typography component='span' variant='body1' gutterBottom>
-								Life Time:
-								<Typography variant='body2' gutterBottom >
-									${numFormatter(earnings?.lifetimeGross?.total?.amount)}
-								</Typography>
-							</Typography>
-							<Typography component='span' variant='body1' gutterBottom>
-								World Wide:
-								<Typography variant='body2' gutterBottom >
-									${numFormatter(earnings?.worldwideGross?.total?.amount)}
-								</Typography>
-							</Typography>
-							<Typography component='span' variant='body1' gutterBottom>
-								Budget:
-								<Typography variant='body2' gutterBottom>
-									${numFormatter(earnings?.productionBudget?.budget?.amount)}
-								</Typography>
-							</Typography>
-						</Box>
+						{earnings?.productionBudget?.budget?.amount &&
+							<>
+								<Typography variant='h6'>
+									Box office
+								</Typography><Box display='flex' gap={1} justifyContent='center'>
+									<Typography component='span' variant='body1' gutterBottom>
+										Opening Weekend:
+										<Typography variant='body2' gutterBottom>
+											${numFormatter(earnings?.openingWeekendGross?.gross?.total?.amount)}
+										</Typography>
+									</Typography>
+									<Typography component='span' variant='body1' gutterBottom>
+										Life Time:
+										<Typography variant='body2' gutterBottom>
+											${numFormatter(earnings?.lifetimeGross?.total?.amount)}
+										</Typography>
+									</Typography>
+									<Typography component='span' variant='body1' gutterBottom>
+										World Wide:
+										<Typography variant='body2' gutterBottom>
+											${numFormatter(earnings?.worldwideGross?.total?.amount)}
+										</Typography>
+									</Typography>
+									<Typography component='span' variant='body1' gutterBottom>
+										Budget:
+										<Typography variant='body2' gutterBottom>
+											${numFormatter(earnings?.productionBudget?.budget?.amount)}
+										</Typography>
+									</Typography>
+								</Box>
+							</>}
 					</CardContent>
 				</Card>
 			</Grid>

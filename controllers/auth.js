@@ -7,7 +7,7 @@ export const register = async (req, res, next) => {
 
 	try {
 		const user = await User.create({
-			username, email, password
+			username, email, password, fullname: '', language: '', description: '',
 		});
 
 		const token = user.createSignedToken();
@@ -126,5 +126,45 @@ export const resetPassword = async (req, res, next) => {
 		res.status(201).json({ success: true, message: 'Password has Been Changed' });
 	} catch (error) {
 		return res.status(400).json({ success: false, message: 'Something went wrong, please try again' });
+	}
+}
+
+export const getProfile = async (req, res, next) => {
+	const { user } = req.body;
+
+	try {
+		const userDetails = await User.findOne({ username: user })
+
+		if (!userDetails) {
+			return res.status(404).json({ success: false, message: 'User could not be found' });
+		}
+
+		res.status(201).json(userDetails);
+	} catch (error) {
+		return res.status(400).json({ success: false, message: 'Something went wrong, please try again' });
+	}
+}
+
+export const updateProfile = async (req, res, next) => {
+	const { username, email, fullname, language, description } = req.body;
+
+	try {
+		const userDetails = await User.findOne({ username })
+
+		if (!userDetails) {
+			return res.status(404).json({ success: false, message: 'User could not be found' });
+		}
+
+		userDetails.username = username;
+		userDetails.email = email;
+		userDetails.fullname = fullname;
+		userDetails.language = language;
+		userDetails.description = description;
+
+		await userDetails.save();
+
+		res.status(201).json({ success: true, token, username, message: 'User has been updated!' });
+	} catch (error) {
+		return res.status(400).json({ success: false, message: 'Please Provide valid information' });
 	}
 }

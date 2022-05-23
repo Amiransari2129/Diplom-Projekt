@@ -1,4 +1,4 @@
-import { Tabs } from '@mui/material'
+import { Avatar, Tab, Tabs } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import React from 'react'
 
@@ -15,8 +15,9 @@ const MovieRow = ({ movieList }) => {
 	return (
 		<Tabs
 			value={1}
-			xs={10}
+			xs={12}
 			variant='scrollable'
+			scrollButtons='auto'
 			TabIndicatorProps={{
 				style: {
 					display: 'none',
@@ -24,17 +25,29 @@ const MovieRow = ({ movieList }) => {
 			}}
 		>
 			{movieList?.map((movie) => (
-				<img
-					className='movie-row-poster'
-					style={{ width: '8rem', marginInline: 3, marginTop: 10, marginBottom: 10, borderRadius: '5px' }}
-					src={movie.image_url}
-					onError={({ currentTarget }) => {
-						currentTarget.onerror = null; // prevents looping
-						currentTarget.src = PosterNotFound;
+				<Tab
+					id='movie-row-poster'
+					key={movie.imdb_id}
+					sx={{
+						paddingX: '.25rem'
 					}}
-					alt={movie.title}
-					loading='lazy'
-					onClick={() => handlePosterClick(movie.imdb_id)}
+					icon={
+						<Avatar
+							variant='square'
+							alt={movie.title}
+							src={movie.image_url}
+							onError={({ currentTarget }) => {
+								currentTarget.onerror = null;
+								currentTarget.src = PosterNotFound;
+							}}
+							sx={{
+								width: '9rem',
+								height: '100%',
+								objectFit: 'cover'
+							}}
+							onClick={() => handlePosterClick(movie.imdb_id)}
+						/>
+					}
 				/>
 			))}
 		</Tabs >

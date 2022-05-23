@@ -3,7 +3,7 @@ import React from 'react'
 
 import Review from './Review/Review'
 
-const DisplayReviews = ({ reviews }) => {
+const DisplayReviews = (reviews, username) => {
 	return (
 		<>
 			{reviews.reviews?.map((review) => (

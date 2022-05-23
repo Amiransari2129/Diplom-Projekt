@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 import { getMovieReviews } from '../../../../actions/reviews';
 import Reviews from './DisplayReviews/DisplayReviews'
 
-const ReviewMovie = () => {
+const ReviewMovie = ({ title }) => {
 	let { id } = useParams();
 	const dispatch = useDispatch();
 
@@ -16,6 +16,7 @@ const ReviewMovie = () => {
 	const user = localStorage.getItem('username');
 
 	const [review, setReview] = useState({
+		title,
 		username: user,
 		rating: 0,
 		reviewText: ''
@@ -36,16 +37,16 @@ const ReviewMovie = () => {
 				'Content-Type': 'application/json'
 			}
 		};
-
-		console.log(review)
 		try {
-			await axios.post(`${id}/review`, review, options).then(
+			await axios.post(`../review/${id}/review`, review, options).then(
 				setTimeout(() => {
 					dispatch(getMovieReviews(id))
 				}, 50)
 			);
 
 			setReview({
+				title,
+				username: user,
 				rating: 0,
 				reviewText: ''
 			})
@@ -54,8 +55,6 @@ const ReviewMovie = () => {
 			return clearMSG();
 		};
 	};
-
-	console.log(reviewsData)
 
 	return (
 		<Grid item xs={12} md={12}>
@@ -69,6 +68,7 @@ const ReviewMovie = () => {
 						setReview({
 							...review,
 							username: user,
+							title,
 							rating: nV
 						});
 					}}
@@ -83,10 +83,11 @@ const ReviewMovie = () => {
 					value={review.reviewText}
 					wrap='true'
 					placeholder='Write your review here!'
-					style={{ width: '100%', background: '#101010', color: '#ef720f', padding: '0.5rem', marginBottom: 5 }}
+					style={{ width: '100%', background: '#101010', color: '#ffbc12', padding: '0.5rem', marginBottom: 5 }}
 					onChange={(e) => setReview({
 						...review,
 						username: user,
+						title,
 						reviewText: e.target.value
 					})}
 				/>
@@ -97,12 +98,17 @@ const ReviewMovie = () => {
 					</Alert>
 				}
 				<Grid item xs={12} >
-					{(Array.isArray(reviewsData?.data?.reviews) && reviewsData?.data?.reviews.length) ?
+					{(Array.isArray(reviewsData?.data) && reviewsData?.data?.length) ?
 						<Grid
 							container
 							spacing={2}
+							marginY={1}
 						>
-							<Reviews reviews={reviewsData?.data} />
+							{reviewsData?.data?.map((reviews) => {
+								return (
+									<Reviews reviews={reviews?.reviews} username={reviews?.username} />
+								)
+							})}
 						</Grid>
 						:
 						<Grid
@@ -118,8 +124,8 @@ const ReviewMovie = () => {
 						</Grid>}
 
 				</Grid>
-			</CardContent>
-		</Grid>
+			</CardContent >
+		</Grid >
 	)
 }
 

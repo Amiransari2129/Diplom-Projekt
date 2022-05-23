@@ -51,9 +51,10 @@ const HomePage = () => {
 		dispatch(getComedy(genreChoice.comedy));
 		dispatch(getAction(genreChoice.action));
 		dispatch(getThriller(genreChoice.thriller));
-	}, [dispatch, genreChoice.action, genreChoice.comedy, genreChoice.thriller, user]);
 
+	}, []);
 
+	console.log(sgenrel2)
 	return (
 		<Layout>
 			<Grid item xs={12}>

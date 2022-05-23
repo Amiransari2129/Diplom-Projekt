@@ -1,5 +1,6 @@
 import { Grid, ImageListItem, ImageListItemBar } from '@mui/material'
 import React from 'react'
+
 import PosterNotFound from '../../../MoviePosters/MoviePoster/PosterNotFound/images.png'
 
 const ExtendedCastList = ({ extendedCast }) => {
@@ -17,8 +18,7 @@ const ExtendedCastList = ({ extendedCast }) => {
 					<img src={actor?.node?.name?.primaryImage?.url || PosterNotFound} style={{ borderRadius: '5px', width: '7.3rem', height: '100%' }} alt={''} loading='lazy' />
 					<ImageListItemBar subtitle={actor.node?.name?.nameText?.text} position='bottom' sx={{ margin: 0, padding: 0 }} />
 				</ImageListItem>
-			))
-			}
+			))}
 		</Grid >
 	)
 }

@@ -64,7 +64,7 @@ const ResetPassPage = () => {
 				<Card variant='outlined'>
 					<CardContent>
 						<Typography variant='h4' align='center'>Reset Password</Typography>
-						<Box component='form' onSubmit={(e) => handleResetPass(e)} noValidate xs={1}>
+						<Box component='form' onSubmit={(e) => handleResetPass(e)} noValidate xs={1} alignItems='center'>
 							<Box textAlign='center' width={300}>
 								<TextField
 									type='password'
@@ -90,7 +90,8 @@ const ResetPassPage = () => {
 										passwordConfirm: e.target.value
 									})}
 								/>
-								<Box textAlign='center' sx={{ mb: '7px' }}>
+
+								<Box textAlign='center' sx={{ mb: '10px' }}>
 									{errorMSG &&
 										<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 											{errorMSG}
@@ -100,19 +101,19 @@ const ResetPassPage = () => {
 											{successMSG}
 										</Alert>}
 								</Box>
+
 							</Box>
 
 							<Box textAlign='center' sx={{ mb: '7px' }}>
 								<Button variant='outlined' type='submit' fullWidth>Change Password</Button>
 							</Box>
 						</Box>
-						<Grid container>
-							<Grid item xs>
-								<Link href='/login'>
-									Return to Login
-								</Link>
-							</Grid>
-						</Grid>
+
+						<Box textAlign='center' sx={{ mb: '-10px' }}>
+							<Link href='/login'>
+								Return to Login
+							</Link>
+						</Box>
 					</CardContent>
 				</Card>
 			</Grid >

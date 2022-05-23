@@ -1,14 +1,15 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 
-import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
-import CastList from '../../MoviesDetailsPage/CastList/CastList'
-import { useDispatch, useSelector } from 'react-redux'
 import { getCastDetails } from '../../../../actions/movies'
+import CastList from '../../MoviesDetailsPage/CastList/CastList'
 
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import './FeaturedMovie.css'
+import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
+
 const FeaturedMovie = ({ movie }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -89,7 +90,7 @@ const FeaturedMovie = ({ movie }) => {
 
 					</CardContent>
 				</Card>
-				<CastList cast={cast} title={movie?.title} size={'5.2rem'} />
+				<CastList cast={cast} title={movie?.title} size={'6rem'} />
 			</Grid>
 		</Grid>
 	)

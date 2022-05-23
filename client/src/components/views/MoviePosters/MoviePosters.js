@@ -10,7 +10,7 @@ const MoviePosters = ({ movies }) => {
 	const navigate = useNavigate();
 	const handlePosterClick = (id) => {
 		navigate(`/movies/${id}`);
-	}
+	};
 
 	return (
 		<Grid
@@ -18,7 +18,7 @@ const MoviePosters = ({ movies }) => {
 			spacing={1}
 		>
 			{movies.map((movie) => (
-				<Grid item xs={4} md={2} lg={1.3333} className='movie-poster' key={movie.movieid}>
+				<Grid item xs={3} md={1.714} lg={1.2} className='movie-poster' key={movie.imdb_id || movie.movieid}>
 					<Movie movie={movie} handlePosterClick={handlePosterClick} />
 				</Grid>
 			))

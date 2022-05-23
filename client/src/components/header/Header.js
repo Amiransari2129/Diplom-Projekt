@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-
 import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Typography, Button, Tooltip } from '@mui/material';
 import { Menu as MenuIcon, AccountCircle as Avatar } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 
-const views = ['Discover', 'Search'];
-const settings = ['Profile', 'Watchlist', 'Logout'];
+const views = ['Search'];
+const settings = ['Profile', 'Logout'];
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -31,8 +30,6 @@ const Header = () => {
 
 	const handleUserChoice = (setting) => {
 		if (setting === 'Profile') {
-			navigate(`/${setting}`);
-		} else if (setting === 'Watchlist') {
 			navigate(`/${setting}`);
 		} else {
 			localStorage.clear();
@@ -106,7 +103,7 @@ const Header = () => {
 					<Box >
 						<Tooltip title='Open settings'>
 							<IconButton onClick={handleOpenUserMenu} >
-								<Avatar alt='Remy Sharp' style={{ color: 'ef720f' }} />
+								<Avatar alt='Remy Sharp' style={{ color: 'ffbc12' }} />
 							</IconButton>
 						</Tooltip>
 						<Menu

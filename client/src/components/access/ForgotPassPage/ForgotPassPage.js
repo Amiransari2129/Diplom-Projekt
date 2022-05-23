@@ -28,10 +28,10 @@ const ForgotPassPage = () => {
 			await axios.post('/auth/forgotpassword', { email }, options);
 
 			setSuccessMSG('Email has been sent!')
-			return clearMSG()
+			clearMSG()
 		} catch (error) {
 			setErrorMSG(error.response.data.message);
-			return clearMSG()
+			clearMSG()
 		}
 	}
 
@@ -47,20 +47,20 @@ const ForgotPassPage = () => {
 				<Card variant='outlined'>
 					<CardContent>
 						<Typography variant='h4' align='center'>Recover Password</Typography>
-						<Box component='form' onSubmit={(e) => handleForgotPass(e)} noValidate xs={1}>
-							<Box textAlign='center' width={300}>
-								<TextField
-									type='email'
-									margin='normal'
-									required
-									fullWidth
-									label='Email Address'
-									autoComplete='email'
-									autoFocus
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-							</Box>
-							<Box textAlign='center' sx={{ mb: '7px' }}>
+						<Box component='form' onSubmit={(e) => handleForgotPass(e)} noValidate xs={1} alignItems='center'>
+
+							<TextField
+								type='email'
+								margin='normal'
+								required
+								fullWidth
+								label='Email Address'
+								autoComplete='email'
+								autoFocus
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+
+							<Box textAlign='center' sx={{ mb: '10px' }}>
 								{errorMSG &&
 									<Alert variant="outlined" severity="error" sx={{ background: '#030303' }}>
 										{errorMSG}
@@ -70,9 +70,11 @@ const ForgotPassPage = () => {
 										{successMSG}
 									</Alert>}
 							</Box>
+
 							<Box textAlign='center' sx={{ mb: '10px' }}>
 								<Button variant='outlined' type='submit' fullWidth>Reset Password</Button>
 							</Box>
+
 							<Box textAlign='center' sx={{ mb: '-10px' }}>
 								<Link href='/login'>
 									Return to Login

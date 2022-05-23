@@ -5,7 +5,6 @@ import React, { useEffect } from 'react'
 
 import { getCastDetails, getCDWDetails, getEarningsDetails, getExtendedCastDetails, getMovieDetails, getMovieAwards } from '../../../actions/movies';
 import { getMovieReviews } from '../../../actions/reviews';
-
 import CastList from './CastList/CastList'
 import Layout from '../../../layout/Layout.js';
 import MovieDetailBanner from './MovieDetailBanner/MovieDetailBanner'
@@ -33,18 +32,18 @@ const MovieDetailsPage = () => {
 
 	return (
 		<Layout>
-			<Grid container >
+			<Grid container justifyContent='center' >
 				<Grid item xs={12}>
 					<MovieDetailBanner movie={movieDetails} extendedCast={extendedCast} CDW={CDW} awards={awards} />
 				</Grid>
 				<Grid item xs={12} align='center' paddingY='2rem'>
 					<CastList cast={cast} title={movieDetails.title} size={'7.6rem'} />
 				</Grid>
-				<Grid container justifyContent='center'>
-					<Grid item xs={9} >
-						<ReviewMovie />
-					</Grid>
+
+				<Grid item xs={9} >
+					<ReviewMovie title={movieDetails.title} />
 				</Grid>
+
 			</Grid>
 		</Layout >
 	)

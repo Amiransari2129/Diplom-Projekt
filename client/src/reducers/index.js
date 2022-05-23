@@ -12,5 +12,6 @@ import sgenrel1 from './sgenrel1';
 import sgenrel2 from './sgenrel2';
 import sgenrel3 from './sgenrel3';
 import fmovieReducer from './featuredMovie';
+import profile from './profile';
 
-export default combineReducers({ movies, cast, earnings, extendedCast, CDW, awards, reviews, watchlist, fmovieReducer, sgenrel1, sgenrel2, sgenrel3 });
+export default combineReducers({ movies, cast, earnings, extendedCast, CDW, awards, reviews, watchlist, fmovieReducer, sgenrel1, sgenrel2, sgenrel3, profile });

@@ -2,16 +2,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 import { getFilteredMovies } from '../../../../actions/movies';
-import { Alert, Button, Grid, MenuItem, Select, TextField } from '@mui/material';
-import { Box } from '@mui/system';
+import { Alert, Button, Grid, MenuItem, Select, TextField, Box } from '@mui/material';
 
 import './SearchBar.css'
 
-const SearchBar = () => {
+const SearchBar = ({ skipValue }) => {
 	const dispatch = useDispatch();
 	const movies = useSelector(state => state.movies)
 
 	const [errorMSG, setErrorMSG] = useState('');
+
 
 	const clearMSG = () => {
 		setTimeout(() => {
@@ -24,34 +24,27 @@ const SearchBar = () => {
 	}, [movies])
 
 	const genreHash = {
-		'action': 1,
-		'adult': 2,
-		'adventure': 3,
-		'animation': 4,
-		'biography': 5,
-		'comedy': 6,
+		'action': 13,
+		'adventure': 4,
+		'animation': 10,
+		'biography': 27,
+		'comedy': 9,
 		'crime': 7,
-		'documentary': 8,
-		'drama': 9,
-		'family': 10,
-		'fantasy': 11,
-		'film-Noir': 12,
-		'game-Show': 13,
-		'history': 14,
-		'horror': 15,
-		'music': 16,
-		'musical': 17,
-		'mystery': 18,
-		'news': 19,
-		'reality-TV': 20,
-		'romance': 21,
-		'sci-Fi': 22,
-		'short': 23,
-		'sport': 24,
-		'talk-show': 25,
-		'thriller': 26,
-		'war': 27,
-		'western': 28,
+		'documentary': 33,
+		'drama': 8,
+		'family': 5,
+		'fantasy': 6,
+		'history': 31,
+		'horror': 28,
+		'music': 32,
+		'musical': 30,
+		'mystery': 15,
+		'romance': 26,
+		'sciFi': 11,
+		'sport': 12,
+		'thriller': 14,
+		'war': 29,
+		'western': 25,
 	}
 
 	const placeHoldertext = {
@@ -62,68 +55,72 @@ const SearchBar = () => {
 	}
 
 	const [searchCriteria, setSearchCriteria] = useState({
-		filterKey: '',
+		filterKey: 'æqæqæ',
 		catKey: 'title',
 	});
 
 	const handleFilter = async (e) => {
 		e.preventDefault();
 		if (searchCriteria.catKey === 'genre') {
-			dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()]));
+			dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()], skipValue));
 		} else {
-			return dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey));
+			return dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
 		}
 	};
 
+	useEffect((e) => {
+		if (searchCriteria.catKey === 'genre') {
+			dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()], skipValue));
+		} else {
+			dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
+		}
+	}, [skipValue])
+
+
 	return (
-		<Grid
-			container
-			alignItems='center'
-			justifyContent='center'>
-			<Grid item xs={11} >
-				<Box
-					component='form'
-					onSubmit={(e) => handleFilter(e)}
-					noValidate>
-					<div className='hori-form'>
-						<TextField
-							type='text'
-							margin='normal'
-							required
-							fullWidth
-							label={placeHoldertext[searchCriteria.catKey]}
-							autoFocus
+		<Grid item xs={11} >
+			<Box
+				component='form'
+				onSubmit={(e) => handleFilter(e)}
+				noValidate>
+				<div className='hori-form'>
+					<TextField
+						type='text'
+						margin='normal'
+						required
+						fullWidth
+						label={placeHoldertext[searchCriteria.catKey]}
+						autoFocus
+						onChange={(e) => setSearchCriteria({
+							...searchCriteria,
+							filterKey: e.target.value
+						})}
+					/>
+					<Box sx={{ mb: -1 }}>
+						<Select
+							select='true'
+							value={searchCriteria.catKey}
+							defaultValue='title'
 							onChange={(e) => setSearchCriteria({
 								...searchCriteria,
-								filterKey: e.target.value
+								catKey: e.target.value
 							})}
-						/>
-						<Box sx={{ mb: -1 }}>
-							<Select
-								select='true'
-								value={searchCriteria.catKey}
-								defaultValue='title'
-								onChange={(e) => setSearchCriteria({
-									...searchCriteria,
-									catKey: e.target.value
-								})}
-							>
-								<MenuItem value='title'>Title</MenuItem>
-								<MenuItem value='genre'>Genre</MenuItem>
-								<MenuItem value='year'>Year</MenuItem>
-								<MenuItem value='rating'>Rating</MenuItem>
-							</Select>
-						</Box>
-						<Button type='submit' sx={{ display: 'none' }} />
-					</div>
-					<Box textAlign='center' sx={{ mb: '7px' }}>
-						{errorMSG &&
-							<Alert variant='outlined' severity='error' sx={{ background: '#030303' }}>
-								{errorMSG}
-							</Alert>}
+						>
+							<MenuItem value='title'>Title</MenuItem>
+							<MenuItem value='genre'>Genre</MenuItem>
+							<MenuItem value='year'>Year</MenuItem>
+							<MenuItem value='rating'>Rating</MenuItem>
+						</Select>
 					</Box>
+					<Button type='submit' sx={{ display: 'none' }} />
+				</div>
+				<Box textAlign='center' sx={{ mb: '7px' }}>
+					{errorMSG &&
+						<Alert variant='outlined' severity='error' sx={{ background: '#030303' }}>
+							{errorMSG}
+						</Alert>}
 				</Box>
-			</Grid >
+			</Box>
 		</Grid >
 	)
 }

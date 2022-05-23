@@ -57,7 +57,7 @@ const LoginPage = () => {
 				<Card raised elevation={8}>
 					<CardContent>
 						<Typography variant='h4' align='center'>Meevies</Typography>
-						<Box component='form' onSubmit={(e) => handleLogin(e)} noValidate xs={1}>
+						<Box component='form' onSubmit={(e) => handleLogin(e)} noValidate xs={1} alignItems='center'>
 							<Box textAlign='center' width={300}>
 								<TextField
 									type='email'
@@ -85,6 +85,7 @@ const LoginPage = () => {
 									})}
 								/>
 							</Box>
+
 							<Box textAlign='center' sx={{ mb: '7px' }} >
 								<Button variant='outlined' type='submit' fullWidth>Login</Button>
 							</Box>
@@ -94,7 +95,9 @@ const LoginPage = () => {
 										{errorMSG}
 									</Alert>}
 							</Box>
+
 						</Box>
+
 						<Grid container>
 							<Grid item xs>
 								<Link href='/register'>

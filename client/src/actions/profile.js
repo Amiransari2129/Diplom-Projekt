@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getMovieReviews = (id) => async (dispatch) => {
+export const getProfile = (user) => async (dispatch) => {
 	let action = [];
 
 	const options = {
@@ -11,9 +11,9 @@ export const getMovieReviews = (id) => async (dispatch) => {
 	}
 
 	try {
-		const reviews = await axios.get(`../review/${id}/getreviews`, options);
+		const profileDetails = await axios.put(`../auth/getprofile`, user, options);
 
-		action = { type: 'getMovieReviews', payload: reviews };
+		action = { type: 'getProfile', payload: profileDetails };
 		dispatch(action);
 	} catch (error) {
 		action = { type: 'error', error: error.response.data };
@@ -21,7 +21,7 @@ export const getMovieReviews = (id) => async (dispatch) => {
 	};
 }
 
-export const getUserReviews = (user) => async (dispatch) => {
+export const updateProfile = (user) => async (dispatch) => {
 	let action = [];
 
 	const options = {
@@ -32,9 +32,9 @@ export const getUserReviews = (user) => async (dispatch) => {
 	}
 
 	try {
-		const reviews = await axios.get(`../review/getreviews/${user}`, options);
+		const profileDetails = await axios.post(`../auth/updateprofile`, user, options);
 
-		action = { type: 'getMovieReviews', payload: reviews };
+		action = { type: 'getProfile', payload: profileDetails };
 		dispatch(action);
 	} catch (error) {
 		action = { type: 'error', error: error.response.data };

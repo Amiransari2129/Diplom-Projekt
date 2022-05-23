@@ -1,5 +1,4 @@
-import { Box } from '@mui/system';
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Grid, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { WatchLater } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
@@ -53,7 +52,6 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 			setShowWatchLater(result)
 		}, 100);
 	}, [movie.imdb_id, movie.movieid, watchlist]);
-
 	return (
 		<Card raised elevation={8} >
 			<CardActionArea >
@@ -61,7 +59,7 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 					onClick={() => handlePosterClick(movie.imdb_id || movie.movieid)}
 					component='img'
 					height='50%'
-					loading="lazy"
+					loading='eager'
 					src={moviePoster}
 					onError={() => setMoviePoster(PosterNotFound)}
 					alt={movie.title}
@@ -93,7 +91,7 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 							</Typography>
 						</Box>
 					}
-					<Box display='flex' flexGrow={1}>
+					<Box item display='flex' flexGrow={1}>
 						{showWatchLater &&
 							<WatchLater fontSize='medium' style={{ position: 'absolute', right: '5px', bottom: '0.8rem' }} onClick={(e) => handleDeleteWatchLater(e)} />
 						}

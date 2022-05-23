@@ -14,6 +14,12 @@ export const getMovie = async (req, res, next) => {
 export const filterMovies = async (req, res, next) => {
 	const { filterKey, catKey } = req.body;
 
+	const skip = parseInt(req.query.skip)
+	const limit = parseInt(req.query.limit)
+
+	const start = (skip - 1) * limit
+	const end = skip * limit
+
 	if (!filterKey || !catKey) {
 		return res.status(400).json({ success: false, message: 'Please provide valid search information' });
 	}
@@ -48,17 +54,20 @@ export const filterMovies = async (req, res, next) => {
 	};
 
 	try {
-		let filteredMovies = undefined;
+		let filteredMovies = {};
 		if (catKey === 'rating') {
-			filteredMovies = await Movies.find(query, filter).sort({ rating: -1 });
+			filteredMovies.results = await Movies.find(query, filter).sort({ rating: -1 }).skip(start).limit(limit);
 		} else {
-			filteredMovies = await Movies.find(query, filter).sort({ popularity: 1 });
+			filteredMovies.results = await Movies.find(query, filter).sort({ popularity: 1 }).skip(start).limit(limit);
 		}
 
 		if (filteredMovies.length <= 0) {
 			return res.status(404).json({ success: false, message: 'Could not find what you were searching for' });
 		}
 
+		filteredMovies.pageNumber = await Movies.find(query, filter).countDocuments() / limit;
+		filteredMovies.skipValue = skip;
+		filteredMovies.filterKey = filterKey;
 		res.status(200).json(filteredMovies);
 	} catch (error) {
 		return res.status(500).json({ success: false, message: 'Something went wrong try again' });
