@@ -1,6 +1,6 @@
-import { Avatar, Tab, Tabs } from '@mui/material'
+import { Avatar, CircularProgress, Tab, Tabs } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import './MovieRow.css'
 import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
@@ -32,21 +32,23 @@ const MovieRow = ({ movieList }) => {
 						paddingX: '.25rem'
 					}}
 					icon={
-						<Avatar
-							variant='square'
-							alt={movie.title}
-							src={movie.image_url}
-							onError={({ currentTarget }) => {
-								currentTarget.onerror = null;
-								currentTarget.src = PosterNotFound;
-							}}
-							sx={{
-								width: '9rem',
-								height: '100%',
-								objectFit: 'cover'
-							}}
-							onClick={() => handlePosterClick(movie.imdb_id)}
-						/>
+						<Suspense fallback={<CircularProgress color='inherit' />}>
+							<Avatar
+								variant='square'
+								alt={movie.title}
+								src={movie.image_url}
+								onError={({ currentTarget }) => {
+									currentTarget.onerror = null;
+									currentTarget.src = PosterNotFound;
+								}}
+								sx={{
+									width: '9rem',
+									height: '100%',
+									objectFit: 'cover'
+								}}
+								onClick={() => handlePosterClick(movie.imdb_id)}
+							/>
+						</Suspense>
 					}
 				/>
 			))}

@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Grid, Tab, Tabs, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Alert, Button, Card, CardContent, Grid, Tab, Tabs, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
@@ -13,14 +13,32 @@ const ProfilePage = () => {
 	const dispatch = useDispatch();
 	const [value, setValue] = useState(0);
 
-	const [user, setUser] = useState({
+	const [user] = useState({
 		user: localStorage.getItem('username')
 	});
+
+	const [errorMSG, setErrorMSG] = useState('');
+
+	const clearMSG = () => {
+		setTimeout(() => {
+			setErrorMSG('')
+		}, 5000);
+	}
+
 
 	const profile = useSelector(state => state.profile);
 	const reviews = useSelector(state => state.reviews);
 	const watchlist = useSelector(state => state.watchlist);
 	const watchlistArr = watchlist?.Watchlist;
+
+	useEffect(() => {
+		if (profile.status !== 201) {
+			setErrorMSG(profile)
+		}
+
+		clearMSG()
+	}, [profile])
+
 
 	const [profileDetails, setProfileDetails] = useState({
 		username: '',
@@ -251,6 +269,7 @@ const ProfilePage = () => {
 					</Card>
 				}
 			</Grid>
+
 		</Layout >
 	)
 }

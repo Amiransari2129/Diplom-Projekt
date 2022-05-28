@@ -1,5 +1,5 @@
-import { Grid, ImageListItem, ImageListItemBar } from '@mui/material';
-import React from 'react';
+import { CircularProgress, Grid, ImageListItem, ImageListItemBar } from '@mui/material';
+import React, { Suspense } from 'react';
 
 import './CastList.css';
 import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
@@ -19,10 +19,12 @@ const CastList = ({ cast, title, size }) => {
 		>
 			{Array.isArray(cast) && cast?.map((actor) => {
 				return (
-					<ImageListItem sx={{ boxShadow: '0rem 0.5rem 1.5rem #000000', marginX: 0.5, marginBottom: 0.5 }} key={actor?.name?.id}>
-						<img src={actor?.name?.primaryImage?.url || PosterNotFound} style={{ borderRadius: '5px', width: size, height: '100%' }} alt={''} loading='lazy' />
-						<ImageListItemBar subtitle={actor?.name?.nameText?.text} position='bottom' sx={{ margin: 0, padding: 0 }} />
-					</ImageListItem>
+					<Suspense fallback={<CircularProgress color='inherit' />}>
+						<ImageListItem sx={{ boxShadow: '0rem 0.5rem 1.5rem #000000', marginX: 0.5, marginBottom: 0.5 }} key={actor?.name?.id}>
+							<img src={actor?.name?.primaryImage?.url || PosterNotFound} style={{ borderRadius: '5px', width: size, height: '100%' }} alt={''} loading='lazy' key={actor?.name?.id} />
+							<ImageListItemBar subtitle={actor?.name?.nameText?.text} position='bottom' sx={{ margin: 0, padding: 0 }} />
+						</ImageListItem>
+					</Suspense>
 				)
 			})}
 		</Grid>

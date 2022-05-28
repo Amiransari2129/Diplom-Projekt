@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: './config.env' });
 
+import './config/firebaseConfig.js'
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';

@@ -1,8 +1,8 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
 import { getCastDetails } from '../../../../actions/movies'
 import CastList from '../../MoviesDetailsPage/CastList/CastList'
@@ -40,18 +40,20 @@ const FeaturedMovie = ({ movie }) => {
 	return (
 		<Grid container spacing={4} justifyContent='center' marginTop={1}>
 			<Grid item xs={9} md={5} lg={2.5}>
-				<Card
-					className='featured-poster'
-					raised
-					elevation={8}
-					sx={{ background: '#101010', borderRadius: '5px' }}
-					onClick={() => handlePosterClick(movie?.imdb_id || movie?.movieid)} >
-					<CardMedia
-						component='img'
-						src={movie?.banner || PosterNotFound}
-						alt={movie?.title}
-					/>
-				</Card>
+				<Suspense fallback={<CircularProgress color='inherit' />}>
+					<Card
+						className='featured-poster'
+						raised
+						elevation={8}
+						sx={{ background: '#101010', borderRadius: '5px' }}
+						onClick={() => handlePosterClick(movie?.imdb_id || movie?.movieid)} >
+						<CardMedia
+							component='img'
+							src={movie?.banner || PosterNotFound}
+							alt={movie?.title}
+						/>
+					</Card>
+				</Suspense>
 			</Grid>
 			<Grid item xs={9} md={6} lg={4} align='center'>
 				<Typography align='center' variant='h4' marginBottom={1} >Featured Movie</Typography>

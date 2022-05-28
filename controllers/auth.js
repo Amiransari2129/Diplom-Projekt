@@ -152,7 +152,7 @@ export const updateProfile = async (req, res, next) => {
 		const userDetails = await User.findOne({ username })
 
 		if (!userDetails) {
-			return res.status(404).json({ success: false, message: 'User could not be found' });
+			return res.status(404).json({ success: false, message: 'User could not be updated, please try again' });
 		}
 
 		userDetails.username = username;
@@ -163,7 +163,7 @@ export const updateProfile = async (req, res, next) => {
 
 		await userDetails.save();
 
-		res.status(201).json({ success: true, token, username, message: 'User has been updated!' });
+		res.status(201).json({ success: true, username, message: 'User has been updated!' });
 	} catch (error) {
 		return res.status(400).json({ success: false, message: 'Please Provide valid information' });
 	}

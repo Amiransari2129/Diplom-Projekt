@@ -68,7 +68,7 @@ export const getCastDetails = (id) => async (dispatch) => {
 		action = { type: 'getCastDetails', payload: castDetails.data.results.principalCast[0].credits };
 		dispatch(action);
 	} catch (error) {
-		action = { type: 'error', error: error.response.data };
+		action = { type: 'error', error: error.response };
 		dispatch(action);
 	};
 }

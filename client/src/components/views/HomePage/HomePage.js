@@ -51,27 +51,28 @@ const HomePage = () => {
 		dispatch(getComedy(genreChoice.comedy));
 		dispatch(getAction(genreChoice.action));
 		dispatch(getThriller(genreChoice.thriller));
+	}, [user]);
 
-	}, []);
-
-	console.log(sgenrel2)
 	return (
 		<Layout>
 			<Grid item xs={12}>
 				<FeaturedMovie movie={featuredMovie[0]} />
 			</Grid>
-			<Grid item xs={11} alignItems='center'>
-				<Typography align='center' variant='h4' overflow='hidden'>Action</Typography>
-				<MovieRow movieList={sgenrel2} />
-			</Grid>
-			<Grid item xs={11}>
-				<Typography align='center' variant='h4' overflow='hidden'>Thriller</Typography>
-				<MovieRow movieList={sgenrel3} />
-			</Grid>
-			<Grid item xs={11} marginBottom={5}>
-				<Typography align='center' variant='h4' overflow='hidden'>Comedy</Typography>
-				<MovieRow movieList={sgenrel1} />
-			</Grid>
+			{
+				(Array.isArray(sgenrel1) && sgenrel1.length) &&
+				<>
+					<Grid item xs={11} alignItems='center'>
+						<Typography align='center' variant='h4' overflow='hidden'>Action</Typography>
+						<MovieRow movieList={sgenrel2} />
+					</Grid><Grid item xs={11}>
+						<Typography align='center' variant='h4' overflow='hidden'>Thriller</Typography>
+						<MovieRow movieList={sgenrel3} />
+					</Grid><Grid item xs={11} marginBottom={5}>
+						<Typography align='center' variant='h4' overflow='hidden'>Comedy</Typography>
+						<MovieRow movieList={sgenrel1} />
+					</Grid>
+				</>
+			}
 		</Layout>
 	)
 }

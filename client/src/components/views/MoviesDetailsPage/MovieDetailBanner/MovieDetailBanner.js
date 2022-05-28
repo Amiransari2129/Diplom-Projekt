@@ -1,6 +1,6 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, Modal, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 
 import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
 import ExtendedCastList from '../../MoviesDetailsPage/CastList/ExtendedCastList/ExtendedCastList'
@@ -11,6 +11,11 @@ const MovieDetailBanner = ({ movie, extendedCast, CDW, awards }) => {
 		extendedCast: false,
 		awardInfo: false,
 	});
+	const [imgError, setImgError] = useState(true);
+
+	const imgNotFound = () => {
+		setImgError(false);
+	}
 
 	const handleClose = () => setOpen({
 		trailer: false,
@@ -47,16 +52,15 @@ const MovieDetailBanner = ({ movie, extendedCast, CDW, awards }) => {
 	return (
 		<Grid container spacing={2} sx={{ pt: '2rem' }} justifyContent='center' alignItems='center'>
 			<Grid item xs={9} md={3.8} lg={2}>
-				<CardMedia
-					component='img'
-					src={movie.banner}
-					onError={({ image }) => {
-						image.onerror = null;
-						image.src = PosterNotFound;
-					}}
-					alt={movie.title}
-					style={{ borderRadius: '5px', boxShadow: '0rem 0.5rem 1.5rem #000000' }}
-				/>
+				<Suspense fallback={<CircularProgress color='inherit' />}>
+					<CardMedia
+						onErrorCapture={() => imgNotFound()}
+						component='img'
+						src={imgError ? movie.banner : PosterNotFound}
+						alt={movie.title}
+						style={{ borderRadius: '5px', boxShadow: '0rem 0.5rem 1.5rem #000000' }}
+					/>
+				</Suspense>
 			</Grid>
 
 			<Grid item xs={9} md={4} lg={4} align='center'>

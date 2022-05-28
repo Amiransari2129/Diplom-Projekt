@@ -37,7 +37,7 @@ export const updateProfile = (user) => async (dispatch) => {
 		action = { type: 'getProfile', payload: profileDetails };
 		dispatch(action);
 	} catch (error) {
-		action = { type: 'error', error: error.response.data };
+		action = { type: 'error', error: error.response.data.message };
 		dispatch(action);
 	};
 }
