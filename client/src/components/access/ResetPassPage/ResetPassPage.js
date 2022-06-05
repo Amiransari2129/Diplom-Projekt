@@ -48,7 +48,7 @@ const ResetPassPage = () => {
 			})
 			return clearMSG()
 		} catch (error) {
-			setErrorMSG(error.response?.data.message)
+			setErrorMSG(error.message)
 			return clearMSG()
 		}
 	}

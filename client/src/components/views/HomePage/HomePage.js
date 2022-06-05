@@ -15,11 +15,11 @@ const HomePage = () => {
 	const sgenrel2 = useSelector(state => state.sgenrel2);
 	const sgenrel3 = useSelector(state => state.sgenrel3);
 
-	const [user, setUser] = useState({
-		user: localStorage.getItem('username')
+	const [user] = useState({
+		user: localStorage.getItem('uid')
 	});
 
-	const [genreChoice, setGenreChoice] = useState({
+	const [genreChoice] = useState({
 		action: 13,
 		adventure: 4,
 		animation: 10,
@@ -44,14 +44,14 @@ const HomePage = () => {
 	});
 
 
-
 	useEffect(() => {
 		dispatch(getFeaturedMovie());
 		dispatch(getWatchlist(user));
 		dispatch(getComedy(genreChoice.comedy));
 		dispatch(getAction(genreChoice.action));
 		dispatch(getThriller(genreChoice.thriller));
-	}, [user]);
+	}, [dispatch, genreChoice.action, genreChoice.comedy, genreChoice.thriller, user]);
+
 
 	return (
 		<Layout>

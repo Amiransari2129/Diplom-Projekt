@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: './config.env' });
 
-import './config/firebaseConfig.js'
+dotenv.config({ path: './config.env' });
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -9,7 +8,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import movieRoutes from './routes/movies.js';
-import authRoutes from './routes/auth.js';
 import reviewRoutes from './routes/reviews.js';
 
 const app = express();
@@ -21,7 +19,6 @@ app.use(cors({
 }));
 
 app.use('/movies', movieRoutes);
-app.use('/auth', authRoutes);
 app.use('/review', reviewRoutes);
 
 const CONNECTION_URL = process.env.MONGO_URL;

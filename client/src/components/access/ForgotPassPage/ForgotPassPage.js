@@ -1,6 +1,8 @@
 import { Alert, Box, Button, Card, CardContent, Grid, Link, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react'
+
+import { auth } from '../../../firebase-config';
 
 const ForgotPassPage = () => {
 	const [email, setEmail] = useState('');
@@ -18,19 +20,12 @@ const ForgotPassPage = () => {
 	const handleForgotPass = async (e) => {
 		e.preventDefault();
 
-		const options = {
-			header: {
-				'Content-Type': 'application/json'
-			},
-		};
-
 		try {
-			await axios.post('/auth/forgotpassword', { email }, options);
-
+			await sendPasswordResetEmail(auth, email)
 			setSuccessMSG('Email has been sent!')
 			clearMSG()
 		} catch (error) {
-			setErrorMSG(error.response.data.message);
+			setErrorMSG(error.message)
 			clearMSG()
 		}
 	}
@@ -56,7 +51,6 @@ const ForgotPassPage = () => {
 								fullWidth
 								label='Email Address'
 								autoComplete='email'
-								autoFocus
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 

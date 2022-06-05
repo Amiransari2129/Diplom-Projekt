@@ -23,7 +23,6 @@ export const getMovieReviews = (id) => async (dispatch) => {
 
 export const getUserReviews = (user) => async (dispatch) => {
 	let action = [];
-
 	const options = {
 		headers: {
 			'Content-Type': 'application/json',

@@ -2,8 +2,9 @@ import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, Moda
 import { useSelector } from 'react-redux'
 import React, { Suspense, useState } from 'react'
 
-import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
 import ExtendedCastList from '../../MoviesDetailsPage/CastList/ExtendedCastList/ExtendedCastList'
+
+import PosterNotFound from '../../MoviePosters/MoviePoster/PosterNotFound/images.png'
 
 const MovieDetailBanner = ({ movie, extendedCast, CDW, awards }) => {
 	const [open, setOpen] = useState({

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const watchlistSchema = new mongoose.Schema({
-	username: String,
+	uid: String,
 	Watchlist: {
 		type: Array, "default": [{
 			movieid: String,

@@ -1,7 +1,6 @@
 import express from 'express';
 
 import { getMovie, filterMovies, addWatchlater, getWatchlist, deleteFromWatchlist, getFeaturedMovie, getMoviesVIAGenre } from '../controllers/movies.js';
-import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 

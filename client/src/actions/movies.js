@@ -221,7 +221,7 @@ export const deleteFromWatchlist = (user, movieid) => async (dispatch) => {
 
 }
 
-export const getWatchlist = (username) => async (dispatch) => {
+export const getWatchlist = (uid) => async (dispatch) => {
 	let action = [];
 
 	const options = {
@@ -232,7 +232,7 @@ export const getWatchlist = (username) => async (dispatch) => {
 	}
 
 	try {
-		const watchlist = await axios.put('movies/getwatchlist', username, options);
+		const watchlist = await axios.put('movies/getwatchlist', uid, options);
 		action = { type: 'getWatchlist', payload: watchlist.data };
 		dispatch(action);
 	} catch (error) {

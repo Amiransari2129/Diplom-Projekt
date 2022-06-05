@@ -18,7 +18,6 @@ export const filterMovies = async (req, res, next) => {
 	const limit = parseInt(req.query.limit)
 
 	const start = (skip - 1) * limit
-	const end = skip * limit
 
 	if (!filterKey || !catKey) {
 		return res.status(400).json({ success: false, message: 'Please provide valid search information' });
@@ -82,16 +81,16 @@ export const addWatchlater = async (req, res, next) => {
 	}
 
 	try {
-		const isThere = await Watchlist.findOne({ username: username });
+		const isThere = await Watchlist.findOne({ uid: username });
 
 		if (!isThere) {
 			const watchlater = await Watchlist.create({
-				username: username, Watchlist: { movieid, image_url, added, title }
+				uid: username, Watchlist: { movieid, image_url, added, title }
 			});
 			watchlater.save(username);
 			res.status(201).json({ success: true, message: 'Movie has been added to watchlist!' });
 		} else {
-			await Watchlist.updateOne({ username: username }, { $push: { Watchlist: { movieid, image_url, added, title } } });
+			await Watchlist.updateOne({ uid: username }, { $push: { Watchlist: { movieid, image_url, added, title } } });
 			res.status(201).json({ success: true, message: 'Movie has been added to watchlist!' });
 		}
 	} catch (error) {
@@ -102,7 +101,7 @@ export const addWatchlater = async (req, res, next) => {
 export const deleteFromWatchlist = async (req, res, next) => {
 	const { user, movieid } = req.body;
 	try {
-		const userWatchlist = await Watchlist.updateOne({ username: user }, { $pull: { Watchlist: { movieid: movieid } } });
+		const userWatchlist = await Watchlist.updateOne({ uid: user }, { $pull: { Watchlist: { movieid: movieid } } });
 
 		res.status(200).json(userWatchlist);
 	} catch (error) {
@@ -113,7 +112,7 @@ export const deleteFromWatchlist = async (req, res, next) => {
 export const getWatchlist = async (req, res, next) => {
 	const { user } = req.body;
 	try {
-		const watchlist = await Watchlist.findOne({ username: user });
+		const watchlist = await Watchlist.findOne({ uid: user });
 		res.status(200).json(watchlist);
 	} catch (error) {
 		return res.status(404).json({ success: false, message: 'could not get locate watchlist' });

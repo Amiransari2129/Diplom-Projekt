@@ -40,6 +40,7 @@ export const getReviews = async (req, res, next) => {
 
 export const getReviewsByUser = async (req, res, next) => {
 	const { user } = req.params;
+
 	try {
 		const reviewDetails = await Reviews.find({ username: user });
 		res.status(200).json(reviewDetails);

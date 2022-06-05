@@ -24,7 +24,7 @@ const MovieRow = ({ movieList }) => {
 				},
 			}}
 		>
-			{movieList?.map((movie) => (
+			{(Array.isArray(movieList) && movieList.length) && movieList?.map((movie) => (
 				<Tab
 					id='movie-row-poster'
 					key={movie.imdb_id}
