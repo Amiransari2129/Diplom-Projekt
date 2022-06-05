@@ -1,7 +1,9 @@
 import { Alert, Box, Button, Card, CardContent, Grid, TextField, Typography, Link } from '@mui/material';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+
+import { auth } from '../../../firebase-config';
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -31,12 +33,6 @@ const RegisterPage = () => {
 	const handleRegister = async (e) => {
 		e.preventDefault();
 
-		const options = {
-			header: {
-				'Content-Type': 'application/json'
-			}
-		};
-
 		if (userData.password !== userData.confirmPassword) {
 			setUserData({
 				...userData,
@@ -47,17 +43,21 @@ const RegisterPage = () => {
 		};
 
 		try {
-			const { data } = await axios.post('auth/register', userData, options);
+			const user = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
 
-			localStorage.setItem('token', data?.token);
-			localStorage.setItem('username', data?.username);
+			await sendEmailVerification(auth.currentUser);
+
+			await updateProfile(auth.currentUser, { displayName: userData.username });
+
+			localStorage.setItem('uid', user.user.uid)
 
 			navigate('/')
 		} catch (error) {
-			setErrorMSG(error.response.data.message)
+			setErrorMSG(error.message)
 			return clearMSG();
 		};
 	};
+
 	return (
 		<Grid
 			container

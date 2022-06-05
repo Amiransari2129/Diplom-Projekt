@@ -39,7 +39,7 @@ const FeaturedMovie = ({ movie }) => {
 
 	return (
 		<Grid container spacing={4} justifyContent='center' marginTop={1}>
-			<Grid item xs={9} md={5} lg={2.5}>
+			<Grid item xs={9} md={5} lg={2}>
 				<Suspense fallback={<CircularProgress color='inherit' />}>
 					<Card
 						className='featured-poster'
@@ -82,11 +82,11 @@ const FeaturedMovie = ({ movie }) => {
 						</Typography>
 
 						{
-							maxLine === 5 && showExpand >= 458 &&
+							maxLine === 5 && showExpand >= 500 &&
 							<ExpandMore onClick={() => handleExpandClick()} />
 						}
 						{
-							maxLine === -1 && showExpand >= 458 &&
+							maxLine === -1 && showExpand >= 500 &&
 							<ExpandLess onClick={() => handleExpandClick()} />
 						}
 

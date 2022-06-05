@@ -2,15 +2,14 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 
 import ForgotPassPage from './components/access/ForgotPassPage/ForgotPassPage';
+import HomePage from './components/views/HomePage/HomePage';
 import LoginPage from './components/access/LoginPage/LoginPage';
+import MovieDetailsPage from './components/views/MoviesDetailsPage/MovieDetailsPage'
 import PrivateRoute from './components/access/PrivateRoute/PrivateRoute';
+import ProfilePage from './components/views/ProfilePage/ProfilePage';
 import RegisterPage from './components/access/RegisterPage/RegisterPage';
 import ResetPassPage from './components/access/ResetPassPage/ResetPassPage';
-
-import HomePage from './components/views/HomePage/HomePage';
 import SearchPage from './components/views/SearchPage/SearchPage';
-import ProfilePage from './components/views/ProfilePage/ProfilePage';
-import MovieDetailsPage from './components/views/MoviesDetailsPage/MovieDetailsPage'
 
 import './App.css';
 

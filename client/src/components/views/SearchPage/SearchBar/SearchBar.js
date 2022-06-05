@@ -1,8 +1,8 @@
+import { Alert, Button, Grid, MenuItem, Select, TextField, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 import { getFilteredMovies } from '../../../../actions/movies';
-import { Alert, Button, Grid, MenuItem, Select, TextField, Box } from '@mui/material';
 
 import './SearchBar.css'
 
@@ -63,18 +63,23 @@ const SearchBar = ({ skipValue }) => {
 		e.preventDefault();
 		if (searchCriteria.catKey === 'genre') {
 			dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()], skipValue));
-		} else {
+		} else if (searchCriteria.catKey === 'year') {
 			return dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
 		}
 	};
 
 	useEffect((e) => {
-		if (searchCriteria.catKey === 'genre') {
-			dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()], skipValue));
-		} else {
-			dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
+		switch (searchCriteria.catKey) {
+			case 'title':
+			case 'rating':
+				if (searchCriteria.filterKey.length > 0) {
+					dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
+				}
+				break;
+			default:
+				break;
 		}
-	}, [skipValue])
+	}, [dispatch, searchCriteria.catKey, searchCriteria.filterKey, skipValue])
 
 
 	return (

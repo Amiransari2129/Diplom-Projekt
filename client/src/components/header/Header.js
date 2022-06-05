@@ -1,7 +1,10 @@
 import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Typography, Button, Tooltip } from '@mui/material';
 import { Menu as MenuIcon, AccountCircle as Avatar } from '@mui/icons-material'
+import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+
+import { auth } from '../../firebase-config';
 
 const views = ['Search'];
 const settings = ['Profile', 'Logout'];
@@ -28,11 +31,12 @@ const Header = () => {
 		setAnchorElUser(null);
 	};
 
-	const handleUserChoice = (setting) => {
+	const handleUserChoice = async (setting) => {
 		if (setting === 'Profile') {
 			navigate(`/${setting}`);
 		} else {
 			localStorage.clear();
+			await signOut(auth)
 			navigate('/login');
 		}
 	}

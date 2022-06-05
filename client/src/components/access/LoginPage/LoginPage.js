@@ -1,7 +1,9 @@
 import { Card, CardContent, Grid, TextField, Typography, Box, Button, Link, Alert } from '@mui/material';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+
+import { auth } from '../../../firebase-config';
 
 const LoginPage = () => {
 	const navigate = useNavigate();
@@ -19,7 +21,7 @@ const LoginPage = () => {
 	}
 
 	useEffect(() => {
-		if (localStorage.getItem('token')) {
+		if (localStorage.getItem('uid')) {
 			navigate('/');
 		}
 	}, [navigate]);
@@ -27,20 +29,13 @@ const LoginPage = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 
-		const options = {
-			header: {
-				'Content-Type': 'application/json'
-			}
-		};
-
 		try {
-			const { data } = await axios.post('/auth/login', userData, options);
-			localStorage.setItem('token', data?.token);
-			localStorage.setItem('username', data?.username);
+			const user = await signInWithEmailAndPassword(auth, userData.email, userData.password);
+			localStorage.setItem('uid', user.user.uid)
 
 			navigate('/')
 		} catch (error) {
-			setErrorMSG(error.response.data.message)
+			setErrorMSG(error.message)
 			return clearMSG();
 		};
 	};

@@ -14,6 +14,8 @@ const MovieDetailsPage = () => {
 	let { id } = useParams();
 	const dispatch = useDispatch();
 
+
+	const profile = useSelector(state => state.profile);
 	const movieDetails = useSelector(state => state.movies);
 	const cast = useSelector(state => state.cast);
 	const extendedCast = useSelector(state => state.extendedCast);
@@ -41,7 +43,7 @@ const MovieDetailsPage = () => {
 				</Grid>
 
 				<Grid item xs={9} >
-					<ReviewMovie title={movieDetails.title} />
+					<ReviewMovie title={movieDetails.title} profile={profile} />
 				</Grid>
 
 			</Grid>

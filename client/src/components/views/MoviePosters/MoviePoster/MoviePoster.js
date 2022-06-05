@@ -15,7 +15,7 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 	const [moviePoster, setMoviePoster] = useState(movie.image_url);
 
 	const [user] = useState({
-		user: localStorage.getItem('username')
+		user: localStorage.getItem('uid')
 	});
 
 	const handleWatchLater = (e) => {
@@ -57,16 +57,19 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 		<Suspense fallback={<CircularProgress color='inherit' />}>
 			<Card raised elevation={8} >
 				<CardActionArea >
-					<CardMedia
-						onClick={() => handlePosterClick(movie.imdb_id || movie.movieid)}
-						component='img'
-						height='50%'
-						loading='eager'
-						src={moviePoster}
-						onError={() => setMoviePoster(PosterNotFound)}
-						alt={movie.title}
-						style={{ objectFit: 'cover' }}
-					/>
+					<div style={{ position: 'relative' }}>
+						<CardMedia
+							onClick={() => handlePosterClick(movie.imdb_id || movie.movieid)}
+							component='img'
+							height='50%'
+							loading='eager'
+							src={moviePoster}
+							onError={() => setMoviePoster(PosterNotFound)}
+							alt={movie.title}
+							style={{ objectFit: 'cover' }}
+						/>
+						<div style={{ position: 'absolute', top: 5, left: '85%', transform: 'translateX(-50%)', fontWeight: 'bold', textShadow: '1px 1px 0px #000000', fontSize: '1.375rem' }}> {movie.rating}</div>
+					</div>
 					<CardContent>
 						<Typography variant='body1' noWrap mt={-1} mb={-1} mr={1.5}>
 							{movie.title}
@@ -79,13 +82,13 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 								<Typography mt={-1.5} ml={1} variant='body2' color='text.secondary'>
 									{movie.year}
 								</Typography>
-								<Typography variant="title" noWrap>
+								<Typography variant='title' noWrap>
 									&nbsp;
 								</Typography>
 								<Typography component='span' mt={-1.5} variant='body2' color='text.secondary'>
 									•
 								</Typography>
-								<Typography variant="title" noWrap>
+								<Typography variant='title' noWrap>
 									&nbsp;
 								</Typography>
 								<Typography mt={-1.5} variant='body2' color='text.secondary'>
@@ -104,7 +107,7 @@ const MoviePoster = ({ handlePosterClick, movie }) => {
 					</CardActions>
 				</CardActionArea>
 			</Card >
-		</Suspense>
+		</Suspense >
 	)
 }
 

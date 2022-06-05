@@ -1,23 +1,23 @@
-import { CardContent, Rating, TextField, Grid, Button, Typography, Alert } from '@mui/material'
+import { CardContent, Rating, TextField, Grid, Button, Typography, Alert } from '@mui/material';
 import { StarRateOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
+import { auth } from '../../../../firebase-config';
 import { getMovieReviews } from '../../../../actions/reviews';
-import Reviews from './DisplayReviews/DisplayReviews'
+import Reviews from './DisplayReviews/DisplayReviews';
 
-const ReviewMovie = ({ title }) => {
+const ReviewMovie = ({ title, profile }) => {
 	let { id } = useParams();
 	const dispatch = useDispatch();
 
 	const reviewsData = useSelector(state => state.reviews);
-	const user = localStorage.getItem('username');
 
 	const [review, setReview] = useState({
 		title,
-		username: user,
+		username: auth?.currentUser?.displayName,
 		rating: 0,
 		reviewText: ''
 	});
@@ -46,12 +46,12 @@ const ReviewMovie = ({ title }) => {
 
 			setReview({
 				title,
-				username: user,
+				username: profile?.data?.displayName,
 				rating: 0,
 				reviewText: ''
 			})
 		} catch (error) {
-			setErrorMSG(error.response.data.message)
+			setErrorMSG(error.message)
 			return clearMSG();
 		};
 	};
@@ -67,7 +67,7 @@ const ReviewMovie = ({ title }) => {
 					onChange={(e, nV) => {
 						setReview({
 							...review,
-							username: user,
+							username: auth?.currentUser?.displayName,
 							title,
 							rating: nV
 						});
@@ -86,7 +86,7 @@ const ReviewMovie = ({ title }) => {
 					style={{ width: '100%', background: '#101010', color: '#ffbc12', padding: '0.5rem', marginBottom: 5 }}
 					onChange={(e) => setReview({
 						...review,
-						username: user,
+						username: auth?.currentUser?.displayName,
 						title,
 						reviewText: e.target.value
 					})}
