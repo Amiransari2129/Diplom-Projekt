@@ -76,7 +76,14 @@ const SearchBar = ({ skipValue }) => {
 					dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
 				}
 				break;
+			case 'genre':
+				dispatch(getFilteredMovies(searchCriteria.catKey, genreHash[searchCriteria.filterKey.toLowerCase()], skipValue));
+				break;
+			case 'year':
+				dispatch(getFilteredMovies(searchCriteria.catKey, searchCriteria.filterKey, skipValue));
+				break;
 			default:
+
 				break;
 		}
 	}, [dispatch, searchCriteria.catKey, searchCriteria.filterKey, skipValue])

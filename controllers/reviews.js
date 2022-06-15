@@ -5,7 +5,7 @@ export const createReviews = async (req, res, next) => {
 	const { rating, reviewText, username, title } = req.body;
 
 
-	if (!rating || !reviewText || !username || !title) {
+	if ((!rating && rating !== 0) || !reviewText || !username || !title) {
 		return res.status(400).json({ success: false, message: 'Please provide valid rating or review' });
 	}
 
