@@ -38,6 +38,10 @@ const ReviewMovie = ({ title, profile }) => {
 			}
 		};
 		try {
+			if (review.rating === null) {
+				review.rating = 0;
+			}
+
 			await axios.post(`../review/${id}/review`, review, options).then(
 				setTimeout(() => {
 					dispatch(getMovieReviews(id))
